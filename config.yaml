@@ -1,0 +1,19 @@
+---
+sampleinfo:
+    name: samplename
+    library: libraryname
+star:
+    program: STAR
+    options:
+        star-index: 
+
+starfusion:
+    program:
+
+tophat:
+
+rsem:
+
+haplotypecaller:
+qc:
+
