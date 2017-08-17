@@ -10,19 +10,9 @@ import sys
 import time
 import pmgctools
 import subprocess
-from jinja2 import Environment, FileSystemLoader
-import logging
+
 
 def init():
-    """
-    Initialize the arguments
-
-    Input:
-        NA
-
-    Output:
-        Returns the parsed arguments.
-    """
     parser = argparse.ArgumentParser(description='Submit command to the cluster.')
     parser.add_argument('command', help='Command you want to run on the cluster.')
     parser.add_argument('-Q', '--queue', help='Cluster queue you want to submit to.')
@@ -42,17 +32,6 @@ def init():
 
 
 def waitlist_to_str(waitlist, spliter=','):
-    """
-    Create a comma separated string with job IDs to wait for.  This will be used
-    with grid engine job dependencies.
-
-    Input:
-        * waitlist: a list of job IDs
-        * spliter: delimiter to be used in the return string (default: ,)
-
-    Output:
-        Returns a string with delimited job IDs
-    """
     if isinstance(waitlist, str):
         return waitlist
     else:
@@ -66,11 +45,6 @@ def waitlist_to_str(waitlist, spliter=','):
         return ','.join(wait)
 
 def create_qsub_template(name, engine, queue=None, waitlist=None, other=None, must_run=False):
-    """
-    Create a shell script to submit to a high performance compute cluster using
-    Torque PBS (HPC for Health) or SGE (UHN local HPC).
-
-    """
     waitlist = waitlist_to_str(waitlist) if waitlist else None
 
     if engine == 'SGE':
@@ -124,38 +98,18 @@ def create_qsub_template(name, engine, queue=None, waitlist=None, other=None, mu
 def qsub(name, command, queue=None, log='process.log', meg='', qsub='qsub', no_overwrite=False, modules=None,
          waitlist=None, dry=False, other=None, must_run=False):
     """
-
-    Input:
-        * name:
-            name of the job, also used as name of the script file
-        * command:
-            command to qsub
-        * queue:
-            queue to submit the job, None=default queue
-        * log:
-            markdown file to record the command
-        * msg:
-            extra message to write into log file
-        * qsub:
-            directory to store qsub script
-        * engine:
-            SGE or Torgue
-        * no_overwrite:
-            if True and there is already a script with the same name, error
-            will raise
-        * modules:
-            a dictionary containing modules and corresponding version to be
-            loaded in the submitted job shell
-        * waitlist:
-            a comma separated string of job IDs to wait for
-        * dry:
-            dry-run
-        * other:
-            other qsub options
-
-    Return:
-        Returns the jobname if the job is submitted to SGE or
-        the extracted job ID if job is submitted to PBS.
+        name: name of the job, also used as name of the script file
+        command: command to qsub
+        queue: queue to submit the job, None=default queue
+        log: markdown file to record the command
+        msg: extra message to write into log file
+        qsub: directory to store qsub script
+        engine: SGE or Torgue
+        no_overwrite: if True and there is already a script with the same name, error will raise
+        modules: a dict to list moudles with version to be loaded
+        waitlist: job hold list, separate by ,
+        dry: dry-run
+        other: opther qsub options
     """
 
     if pmgctools.get_var('SGE_ROOT'):
