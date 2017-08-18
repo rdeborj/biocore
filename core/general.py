@@ -15,7 +15,7 @@ def get_sample_name_from_fastq_file(file=None):
     number (e.g. KOM22_RNA_T_S6_L001_R1_001.fastq.gz)
 
     USAGE:
-        object.get_sample_name_from_fastq_file(file=None)
+        get_sample_name_from_fastq_file(file=None)
 
     INPUT:
         * file: FASTQ filename
@@ -108,7 +108,7 @@ def merge_fastq_files(dir='.'):
         sys.exit()
     else:
         for sample in _fastq_files.keys():
-            os.makedirs(sample)
+            os.makedirs(sample, exist_ok=True)
             for _fastq_read1 in _fastq_files[sample].keys():
                 read1.append(_fastq_read1)
                 read2.append(_fastq_files[sample][_fastq_read1])

@@ -2,9 +2,9 @@
 
 from distutils.core import setup
 
-setup(name='flexbar',
+setup(name='biocore',
       version='0.1',
       description='Bioinformatics Core Libraries',
-      author='Zhibin Lu',
-      author_email='zhibin.lu@uhnresearch.ca',
-      py_modules=['qsub', 'pmgctools'])
+      author='Richard J. de Borja',
+      author_email='richard.deborja@uhnresearch.ca',
+      py_modules=['core.general'])
